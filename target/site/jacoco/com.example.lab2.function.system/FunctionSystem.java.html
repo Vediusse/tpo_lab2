@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FunctionSystem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab2-function-system</a> &gt; <a href="index.source.html" class="el_package">com.example.lab2.function.system</a> &gt; <span class="el_source">FunctionSystem.java</span></div><h1>FunctionSystem.java</h1><pre class="source lang-java linenums">package com.example.lab2.function.system;
+
+import com.example.lab2.model.MathFunction;
+import com.example.lab2.util.DoubleComparator;
+
+/**
+ * Piecewise system of trigonometric and logarithmic functions.
+ */
+public class FunctionSystem implements MathFunction {
+
+    private final MathFunction cosFunction;
+    private final MathFunction tanFunction;
+    private final MathFunction secFunction;
+    private final MathFunction cscFunction;
+    private final MathFunction lnFunction;
+    private final MathFunction log2Function;
+    private final MathFunction log3Function;
+    private final MathFunction log5Function;
+
+    public FunctionSystem(
+            MathFunction cosFunction,
+            MathFunction tanFunction,
+            MathFunction secFunction,
+            MathFunction cscFunction,
+            MathFunction lnFunction,
+            MathFunction log2Function,
+            MathFunction log3Function,
+            MathFunction log5Function
+<span class="fc" id="L29">    ) {</span>
+<span class="fc" id="L30">        this.cosFunction = cosFunction;</span>
+<span class="fc" id="L31">        this.tanFunction = tanFunction;</span>
+<span class="fc" id="L32">        this.secFunction = secFunction;</span>
+<span class="fc" id="L33">        this.cscFunction = cscFunction;</span>
+<span class="fc" id="L34">        this.lnFunction = lnFunction;</span>
+<span class="fc" id="L35">        this.log2Function = log2Function;</span>
+<span class="fc" id="L36">        this.log3Function = log3Function;</span>
+<span class="fc" id="L37">        this.log5Function = log5Function;</span>
+<span class="fc" id="L38">    }</span>
+
+    @Override
+    public double calculate(double x, double eps) {
+<span class="fc" id="L42">        DoubleComparator.requirePositiveEps(eps);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (x &lt;= 0) {</span>
+<span class="fc" id="L44">            return calculateTrigBranch(x, eps);</span>
+        }
+<span class="fc" id="L46">        return calculateLogBranch(x, eps);</span>
+    }
+
+    private double calculateTrigBranch(double x, double eps) {
+<span class="fc" id="L50">        double tan = tanFunction.calculate(x, eps);</span>
+<span class="fc" id="L51">        double cos = cosFunction.calculate(x, eps);</span>
+<span class="fc" id="L52">        double sec = secFunction.calculate(x, eps);</span>
+<span class="fc" id="L53">        double csc = cscFunction.calculate(x, eps);</span>
+
+<span class="fc" id="L55">        double denominator = csc * tan - tan;</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (DoubleComparator.isZero(denominator, eps)) {</span>
+<span class="nc" id="L57">            throw new ArithmeticException(&quot;Function system trig branch denominator is zero&quot;);</span>
+        }
+
+<span class="fc" id="L60">        return (((tan * tan + tan + cos) * sec) / denominator) - cos;</span>
+    }
+
+    private double calculateLogBranch(double x, double eps) {
+<span class="fc" id="L64">        double log2 = log2Function.calculate(x, eps);</span>
+<span class="fc" id="L65">        double log3 = log3Function.calculate(x, eps);</span>
+<span class="fc" id="L66">        double log5 = log5Function.calculate(x, eps);</span>
+<span class="fc" id="L67">        double ln = lnFunction.calculate(x, eps);</span>
+
+<span class="fc" id="L69">        double log2Cube = log2 * log2 * log2;</span>
+<span class="fc" id="L70">        double left = Math.pow(Math.pow(log2Cube, 2.0) + log2, 2.0);</span>
+<span class="fc" id="L71">        double right = log5 + (ln * (Math.pow(log3, 2.0) + log2Cube));</span>
+<span class="fc" id="L72">        return left - right;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

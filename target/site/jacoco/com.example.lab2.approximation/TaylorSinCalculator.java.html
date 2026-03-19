@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaylorSinCalculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab2-function-system</a> &gt; <a href="index.source.html" class="el_package">com.example.lab2.approximation</a> &gt; <span class="el_source">TaylorSinCalculator.java</span></div><h1>TaylorSinCalculator.java</h1><pre class="source lang-java linenums">package com.example.lab2.approximation;
+
+import com.example.lab2.util.AngleNormalizer;
+import com.example.lab2.util.DoubleComparator;
+
+/**
+ * Calculates sin(x) using the Taylor series.
+ */
+<span class="fc" id="L9">public class TaylorSinCalculator {</span>
+
+    /**
+     * Calculates sin(x) with the requested precision.
+     *
+     * @param x angle in radians
+     * @param eps target precision
+     * @return approximated sin(x)
+     */
+    public double calculate(double x, double eps) {
+<span class="fc" id="L19">        DoubleComparator.requirePositiveEps(eps);</span>
+
+<span class="fc" id="L21">        double normalizedX = AngleNormalizer.normalizeRadians(x);</span>
+<span class="fc" id="L22">        double term = normalizedX;</span>
+<span class="fc" id="L23">        double sum = normalizedX;</span>
+<span class="fc" id="L24">        int n = 1;</span>
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        while (Math.abs(term) &gt; eps) {</span>
+<span class="fc" id="L27">            term *= -normalizedX * normalizedX / ((2.0 * n) * (2.0 * n + 1.0));</span>
+<span class="fc" id="L28">            sum += term;</span>
+<span class="fc" id="L29">            n++;</span>
+        }
+
+<span class="fc" id="L32">        return sum;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,15 @@
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/CsvExporterIT.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/FunctionSystemFullIT.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/FunctionSystemLogBranchIT.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/FunctionSystemTrigBranchIT.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/approximation/LnSeriesCalculatorTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/approximation/TaylorSinCalculatorTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/log/LnFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/log/LogNFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/system/FunctionSystemTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/CosFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/CotFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/CscFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/SecFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/SinFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/TanFunctionTest.java

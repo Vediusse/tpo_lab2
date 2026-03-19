@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CsvExporter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab2-function-system</a> &gt; <a href="index.source.html" class="el_package">com.example.lab2.io</a> &gt; <span class="el_source">CsvExporter.java</span></div><h1>CsvExporter.java</h1><pre class="source lang-java linenums">package com.example.lab2.io;
+
+import com.example.lab2.model.SampledPoint;
+import com.opencsv.CSVWriter;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
+
+/**
+ * Writes sampled points to CSV files in x,result format.
+ */
+<span class="fc" id="L18">public class CsvExporter {</span>
+
+    /**
+     * Exports points to a CSV file.
+     *
+     * @param path output file path
+     * @param points sampled points
+     */
+    public void export(Path path, List&lt;SampledPoint&gt; points) {
+        try {
+<span class="fc" id="L28">            Path parent = path.getParent();</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            if (parent != null) {</span>
+<span class="fc" id="L30">                Files.createDirectories(parent);</span>
+            }
+
+<span class="fc" id="L33">            try (Writer writer = new OutputStreamWriter(</span>
+<span class="fc" id="L34">                    Files.newOutputStream(</span>
+                            path,
+                            StandardOpenOption.CREATE,
+                            StandardOpenOption.TRUNCATE_EXISTING,
+                            StandardOpenOption.WRITE
+                    ),
+                    StandardCharsets.UTF_8
+            );
+<span class="fc" id="L42">                 CSVWriter csvWriter = new CSVWriter(</span>
+                         writer,
+                         CSVWriter.DEFAULT_SEPARATOR,
+                         CSVWriter.NO_QUOTE_CHARACTER,
+                         CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                         CSVWriter.DEFAULT_LINE_END
+                 )) {
+<span class="fc" id="L49">                csvWriter.writeNext(new String[]{&quot;x&quot;, &quot;result&quot;});</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">                for (SampledPoint point : points) {</span>
+<span class="fc" id="L51">                    csvWriter.writeNext(new String[]{</span>
+<span class="fc" id="L52">                            Double.toString(point.x()),</span>
+<span class="fc" id="L53">                            Double.toString(point.result())</span>
+                    });
+<span class="fc" id="L55">                }</span>
+            }
+<span class="nc" id="L57">        } catch (IOException e) {</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(&quot;Failed to export CSV to: &quot; + path, e);</span>
+<span class="fc" id="L59">        }</span>
+<span class="fc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
