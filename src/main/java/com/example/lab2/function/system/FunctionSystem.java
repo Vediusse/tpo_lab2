@@ -57,7 +57,7 @@ public class FunctionSystem implements MathFunction {
             throw new ArithmeticException("Function system trig branch denominator is zero");
         }
 
-        return (((tan * tan + tan + cos) * sec) / denominator) - cos;
+        return ((((tan * tan) * tan + cos) * sec) / denominator) - cos;
     }
 
     private double calculateLogBranch(double x, double eps) {

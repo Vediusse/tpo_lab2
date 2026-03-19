@@ -26,7 +26,7 @@ import java.util.List;
     public void export(Path path, List&lt;SampledPoint&gt; points) {
         try {
 <span class="fc" id="L28">            Path parent = path.getParent();</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            if (parent != null) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            if (parent != null) {</span>
 <span class="fc" id="L30">                Files.createDirectories(parent);</span>
             }
 
@@ -54,8 +54,8 @@ import java.util.List;
                     });
 <span class="fc" id="L55">                }</span>
             }
-<span class="nc" id="L57">        } catch (IOException e) {</span>
-<span class="nc" id="L58">            throw new IllegalArgumentException(&quot;Failed to export CSV to: &quot; + path, e);</span>
+<span class="fc" id="L57">        } catch (IOException e) {</span>
+<span class="fc" id="L58">            throw new IllegalArgumentException(&quot;Failed to export CSV to: &quot; + path, e);</span>
 <span class="fc" id="L59">        }</span>
 <span class="fc" id="L60">    }</span>
 }

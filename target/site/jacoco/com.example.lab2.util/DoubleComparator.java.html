@@ -14,7 +14,7 @@ public final class DoubleComparator {
      * @param eps precision
      */
     public static void requirePositiveEps(double eps) {
-<span class="pc bpc" id="L17" title="2 of 6 branches missed.">        if (Double.isNaN(eps) || Double.isInfinite(eps) || eps &lt;= 0) {</span>
+<span class="fc bfc" id="L17" title="All 6 branches covered.">        if (Double.isNaN(eps) || Double.isInfinite(eps) || eps &lt;= 0) {</span>
 <span class="fc" id="L18">            throw new IllegalArgumentException(&quot;eps must be positive and finite&quot;);</span>
         }
 <span class="fc" id="L20">    }</span>

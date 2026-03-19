@@ -1,0 +1,18 @@
+{
+    "sourceFile": "scripts/main.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1773922790781,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1773922790781,
+            "name": "Commit-0",
+            "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\n\ndef system_function(x: np.ndarray) -> np.ndarray:\n    y = np.full_like(x, np.nan, dtype=float)\n\n    # x <= 0\n    left = x <= 0\n    if np.any(left):\n        xl = x[left]\n        sin_x = np.sin(xl)\n        cos_x = np.cos(xl)\n        tan_x = np.tan(xl)\n\n        sec_x = 1.0 / cos_x\n        csc_x = 1.0 / sin_x\n\n        numerator = ((tan_x ** 2) * tan_x + cos_x) * sec_x\n        denominator = (csc_x * tan_x) - tan_x\n\n        with np.errstate(divide=\"ignore\", invalid=\"ignore\"):\n            y[left] = (numerator / denominator) - cos_x\n\n    # x > 0\n    right = x > 0\n    if np.any(right):\n        xr = x[right]\n\n        log2_x = np.log(xr) / np.log(2)\n        log3_x = np.log(xr) / np.log(3)\n        log5_x = np.log(xr) / np.log(5)\n        ln_x = np.log(xr)\n\n        with np.errstate(divide=\"ignore\", invalid=\"ignore\"):\n            y[right] = ((((log2_x ** 3) ** 2) + log2_x) ** 2) - (\n                log5_x + (ln_x * ((log3_x ** 2) + (log2_x ** 3)))\n            )\n\n    # убираем бесконечности, чтобы график не соединял их линиями\n    y[~np.isfinite(y)] = np.nan\n    return y\n\n\n# диапазон по x\nx = np.linspace(-10, 10, 200000)\ny = system_function(x)\n\nplt.figure(figsize=(12, 6))\nplt.plot(x, y)\n\nplt.axhline(0)\nplt.axvline(0)\nplt.ylim(-50, 50)  # можно менять для удобства просмотра\nplt.xlim(-10, 10)\n\nplt.title(\"Graph of the function system\")\nplt.xlabel(\"x\")\nplt.ylabel(\"y\")\nplt.grid(True)\n\nplt.show()"
+        }
+    ]
+}

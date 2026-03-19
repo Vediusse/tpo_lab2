@@ -1,54 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Application.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab2-function-system</a> &gt; <a href="index.source.html" class="el_package">com.example.lab2</a> &gt; <span class="el_source">Application.java</span></div><h1>Application.java</h1><pre class="source lang-java linenums">package com.example.lab2;
 
+import com.example.lab2.function.log.LogNFunction;
+import com.example.lab2.function.trig.CosFunction;
+import com.example.lab2.function.trig.CotFunction;
+import com.example.lab2.function.trig.CscFunction;
+import com.example.lab2.function.trig.SecFunction;
+import com.example.lab2.function.trig.TanFunction;
 import com.example.lab2.factory.FunctionFactory;
 import com.example.lab2.io.CsvExporter;
 import com.example.lab2.io.FunctionSampler;
 import com.example.lab2.model.MathFunction;
+import com.example.lab2.model.SampledPoint;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Example application that generates CSV files for the lab report.
  */
-<span class="nc" id="L15">public class Application {</span>
+<span class="fc" id="L25">public class Application {</span>
 
     public static void main(String[] args) {
-<span class="nc" id="L18">        double eps = 1E-8;</span>
-<span class="nc" id="L19">        FunctionSampler sampler = new FunctionSampler();</span>
-<span class="nc" id="L20">        CsvExporter exporter = new CsvExporter();</span>
+<span class="fc" id="L28">        Arguments arguments = parseArguments(args);</span>
+<span class="fc" id="L29">        run(</span>
+<span class="fc" id="L30">                arguments.outputDir(),</span>
+                System.out,
+                new FunctionSampler(),
+                new CsvExporter(),
+<span class="fc" id="L34">                FunctionFactory.createFunctionSystem(),</span>
+<span class="fc" id="L35">                FunctionFactory.createSinFunction(),</span>
+<span class="fc" id="L36">                FunctionFactory.createLnFunction(),</span>
+<span class="fc" id="L37">                arguments.eps()</span>
+        );
+<span class="fc" id="L39">    }</span>
 
-<span class="nc" id="L22">        MathFunction system = FunctionFactory.createFunctionSystem();</span>
-<span class="nc" id="L23">        MathFunction sin = FunctionFactory.createSinFunction();</span>
-<span class="nc" id="L24">        MathFunction ln = FunctionFactory.createLnFunction();</span>
+    static Arguments parseArguments(String[] args) {
+<span class="fc" id="L42">        Path outputDir = Path.of(&quot;output&quot;);</span>
+<span class="fc" id="L43">        double eps = 1E-10;</span>
 
-<span class="nc" id="L26">        Path outputDir = Path.of(&quot;output&quot;);</span>
-<span class="nc" id="L27">        createOutputDirectory(outputDir);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (int i = 0; i &lt; args.length; i++) {</span>
+<span class="fc" id="L46">            String arg = args[i];</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            if (&quot;--output-dir&quot;.equals(arg)) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                if (i + 1 &gt;= args.length) {</span>
+<span class="fc" id="L49">                    throw new IllegalArgumentException(&quot;Missing value for --output-dir&quot;);</span>
+                }
+<span class="fc" id="L51">                outputDir = Path.of(args[++i]);</span>
+<span class="fc" id="L52">                continue;</span>
+            }
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            if (&quot;--eps&quot;.equals(arg)) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                if (i + 1 &gt;= args.length) {</span>
+<span class="fc" id="L56">                    throw new IllegalArgumentException(&quot;Missing value for --eps&quot;);</span>
+                }
+<span class="fc" id="L58">                eps = Double.parseDouble(args[++i]);</span>
+<span class="fc" id="L59">                continue;</span>
+            }
+<span class="fc" id="L61">            throw new IllegalArgumentException(&quot;Unknown argument: &quot; + arg);</span>
+        }
 
-<span class="nc" id="L29">        System.out.println(&quot;Generating CSV...&quot;);</span>
+<span class="fc" id="L64">        return new Arguments(outputDir, eps);</span>
+    }
 
-<span class="nc" id="L31">        Path sinPath = outputDir.resolve(&quot;sin.csv&quot;);</span>
-<span class="nc" id="L32">        exporter.export(sinPath, sampler.sample(sin, -Math.PI, Math.PI, 0.2, eps));</span>
-<span class="nc" id="L33">        System.out.println(&quot;Generated: output/sin.csv&quot;);</span>
+    static void run(
+            Path outputDir,
+            PrintStream out,
+            FunctionSampler sampler,
+            CsvExporter exporter,
+            MathFunction system,
+            MathFunction sin,
+            MathFunction ln,
+            double eps
+    ) {
+<span class="fc" id="L77">        createOutputDirectory(outputDir);</span>
 
-<span class="nc" id="L35">        Path lnPath = outputDir.resolve(&quot;ln.csv&quot;);</span>
-<span class="nc" id="L36">        exporter.export(lnPath, sampler.sample(ln, 0.2, 5.0, 0.2, eps));</span>
-<span class="nc" id="L37">        System.out.println(&quot;Generated: output/ln.csv&quot;);</span>
+<span class="fc" id="L79">        MathFunction cos = new CosFunction(sin);</span>
+<span class="fc" id="L80">        MathFunction tan = new TanFunction(sin, cos);</span>
+<span class="fc" id="L81">        MathFunction cot = new CotFunction(sin, cos);</span>
+<span class="fc" id="L82">        MathFunction sec = new SecFunction(cos);</span>
+<span class="fc" id="L83">        MathFunction csc = new CscFunction(sin);</span>
+<span class="fc" id="L84">        MathFunction log2 = new LogNFunction(2.0, ln);</span>
+<span class="fc" id="L85">        MathFunction log3 = new LogNFunction(3.0, ln);</span>
+<span class="fc" id="L86">        MathFunction log5 = new LogNFunction(5.0, ln);</span>
 
-<span class="nc" id="L39">        Path systemPath = outputDir.resolve(&quot;system.csv&quot;);</span>
-<span class="nc" id="L40">        exporter.export(systemPath, sampler.sample(system, 0.2, 5.0, 0.2, eps));</span>
-<span class="nc" id="L41">        System.out.println(&quot;Generated: output/system.csv&quot;);</span>
+<span class="fc" id="L88">        out.println(&quot;Generating CSV...&quot;);</span>
 
-<span class="nc" id="L43">        System.out.println(&quot;Done.&quot;);</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L90">        exportContinuous(outputDir.resolve(&quot;sin.csv&quot;), out, sampler, exporter, sin, -Math.PI, Math.PI, 0.001, eps);</span>
+<span class="fc" id="L91">        exportContinuous(outputDir.resolve(&quot;cos.csv&quot;), out, sampler, exporter, cos, -Math.PI, Math.PI, 0.001, eps);</span>
+<span class="fc" id="L92">        exportDiscontinuous(outputDir.resolve(&quot;tan.csv&quot;), out, exporter, tan, -2.0, 2.0, 0.001, eps);</span>
+<span class="fc" id="L93">        exportDiscontinuous(outputDir.resolve(&quot;cot.csv&quot;), out, exporter, cot, -2.0, 2.0, 0.001, eps);</span>
+<span class="fc" id="L94">        exportDiscontinuous(outputDir.resolve(&quot;sec.csv&quot;), out, exporter, sec, -2.0, 2.0, 0.001, eps);</span>
+<span class="fc" id="L95">        exportDiscontinuous(outputDir.resolve(&quot;csc.csv&quot;), out, exporter, csc, -2.0, 2.0, 0.001, eps);</span>
 
-    private static void createOutputDirectory(Path outputDir) {
+<span class="fc" id="L97">        exportContinuous(outputDir.resolve(&quot;ln.csv&quot;), out, sampler, exporter, ln, 0.05, 5.0, 0.001, eps);</span>
+<span class="fc" id="L98">        exportContinuous(outputDir.resolve(&quot;log2.csv&quot;), out, sampler, exporter, log2, 0.05, 5.0, 0.001, eps);</span>
+<span class="fc" id="L99">        exportContinuous(outputDir.resolve(&quot;log3.csv&quot;), out, sampler, exporter, log3, 0.05, 5.0, 0.001, eps);</span>
+<span class="fc" id="L100">        exportContinuous(outputDir.resolve(&quot;log5.csv&quot;), out, sampler, exporter, log5, 0.05, 5.0, 0.001, eps);</span>
+
+<span class="fc" id="L102">        Path systemLeftPath = outputDir.resolve(&quot;system_left.csv&quot;);</span>
+<span class="fc" id="L103">        List&lt;SampledPoint&gt; leftBranch = sampleWithDiscontinuities(system, -4.0, -0.001, 0.001, eps);</span>
+<span class="fc" id="L104">        exporter.export(systemLeftPath, leftBranch);</span>
+<span class="fc" id="L105">        out.println(&quot;Generated: &quot; + systemLeftPath);</span>
+
+<span class="fc" id="L107">        Path systemRightPath = outputDir.resolve(&quot;system_right.csv&quot;);</span>
+<span class="fc" id="L108">        List&lt;SampledPoint&gt; rightBranch = sampleWithDiscontinuities(system, 0.001, 2.2, 0.001, eps);</span>
+<span class="fc" id="L109">        exporter.export(systemRightPath, rightBranch);</span>
+<span class="fc" id="L110">        out.println(&quot;Generated: &quot; + systemRightPath);</span>
+
+<span class="fc" id="L112">        Path systemPath = outputDir.resolve(&quot;system.csv&quot;);</span>
+<span class="fc" id="L113">        List&lt;SampledPoint&gt; combined = new ArrayList&lt;&gt;(leftBranch.size() + rightBranch.size() + 1);</span>
+<span class="fc" id="L114">        combined.addAll(leftBranch);</span>
+<span class="fc" id="L115">        combined.add(new SampledPoint(0.0, Double.NaN));</span>
+<span class="fc" id="L116">        combined.addAll(rightBranch);</span>
+<span class="fc" id="L117">        exporter.export(systemPath, combined);</span>
+<span class="fc" id="L118">        out.println(&quot;Generated: &quot; + systemPath);</span>
+
+<span class="fc" id="L120">        out.println(&quot;Done.&quot;);</span>
+<span class="fc" id="L121">    }</span>
+
+    private static void exportContinuous(
+            Path path,
+            PrintStream out,
+            FunctionSampler sampler,
+            CsvExporter exporter,
+            MathFunction function,
+            double from,
+            double to,
+            double step,
+            double eps
+    ) {
+<span class="fc" id="L134">        exporter.export(path, sampler.sample(function, from, to, step, eps));</span>
+<span class="fc" id="L135">        out.println(&quot;Generated: &quot; + path);</span>
+<span class="fc" id="L136">    }</span>
+
+    private static void exportDiscontinuous(
+            Path path,
+            PrintStream out,
+            CsvExporter exporter,
+            MathFunction function,
+            double from,
+            double to,
+            double step,
+            double eps
+    ) {
+<span class="fc" id="L148">        exporter.export(path, sampleWithDiscontinuities(function, from, to, step, eps));</span>
+<span class="fc" id="L149">        out.println(&quot;Generated: &quot; + path);</span>
+<span class="fc" id="L150">    }</span>
+
+    static List&lt;SampledPoint&gt; sampleWithDiscontinuities(
+            MathFunction function,
+            double from,
+            double to,
+            double step,
+            double eps
+    ) {
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        if (step &lt;= 0) {</span>
+<span class="fc" id="L160">            throw new IllegalArgumentException(&quot;step must be positive&quot;);</span>
+        }
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (from &gt; to) {</span>
+<span class="fc" id="L163">            throw new IllegalArgumentException(&quot;from must be less than or equal to to&quot;);</span>
+        }
+
+<span class="fc" id="L166">        List&lt;SampledPoint&gt; points = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L167">        double x = from;</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        while (x &lt;= to + eps) {</span>
+            double value;
+            try {
+<span class="fc" id="L171">                value = function.calculate(x, eps);</span>
+<span class="fc" id="L172">            } catch (RuntimeException exception) {</span>
+<span class="fc" id="L173">                value = Double.NaN;</span>
+<span class="fc" id="L174">            }</span>
+<span class="fc" id="L175">            points.add(new SampledPoint(x, value));</span>
+<span class="fc" id="L176">            x += step;</span>
+<span class="fc" id="L177">        }</span>
+<span class="fc" id="L178">        return points;</span>
+    }
+
+    static void createOutputDirectory(Path outputDir) {
         try {
-<span class="nc" id="L48">            Files.createDirectories(outputDir);</span>
-<span class="nc" id="L49">        } catch (IOException e) {</span>
-<span class="nc" id="L50">            throw new IllegalStateException(&quot;Failed to create output directory: &quot; + outputDir.toAbsolutePath(), e);</span>
-<span class="nc" id="L51">        }</span>
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L183">            Files.createDirectories(outputDir);</span>
+<span class="fc" id="L184">        } catch (IOException e) {</span>
+<span class="fc" id="L185">            throw new IllegalStateException(&quot;Failed to create output directory: &quot; + outputDir.toAbsolutePath(), e);</span>
+<span class="fc" id="L186">        }</span>
+<span class="fc" id="L187">    }</span>
+
+<span class="fc" id="L189">    record Arguments(Path outputDir, double eps) {</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

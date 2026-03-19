@@ -1,3 +1,4 @@
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/ApplicationTest.java
 /Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/CsvExporterIT.java
 /Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/FunctionSystemFullIT.java
 /Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/integration/FunctionSystemLogBranchIT.java
@@ -13,3 +14,9 @@
 /Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/SecFunctionTest.java
 /Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/SinFunctionTest.java
 /Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/TanFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/function/trig/TrigFunctionCsvReferenceTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/io/CsvExporterTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/io/FunctionSamplerTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/stub/TableFunctionTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/util/AngleNormalizerTest.java
+/Users/rublev/DEV/tpo/lab2/src/test/java/com/example/lab2/unit/util/DoubleComparatorTest.java

@@ -72,9 +72,6 @@ public class TableFunction implements MathFunction {
 
         double y1 = points.get(floor);
         double y2 = points.get(ceil);
-        if (DoubleComparator.isClose(floor, ceil, eps)) {
-            return y1;
-        }
         return y1 + (x - floor) * (y2 - y1) / (ceil - floor);
     }
 

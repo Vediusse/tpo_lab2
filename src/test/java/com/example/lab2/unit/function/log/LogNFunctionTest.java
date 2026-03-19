@@ -37,6 +37,29 @@ class LogNFunctionTest {
                 .hasMessageContaining("x > 0");
     }
 
+    @Test
+    void shouldRejectNonPositiveBase() {
+        assertThatThrownBy(() -> new LogNFunction(0.0, ln))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("log base");
+    }
+
+    @Test
+    void shouldRejectBaseEqualToOne() {
+        assertThatThrownBy(() -> new LogNFunction(1.0, ln))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("log base");
+    }
+
+    @Test
+    void shouldThrowWhenBaseLogarithmIsZero() {
+        LogNFunction function = new LogNFunction(2.0, (x, eps) -> 0.0);
+
+        assertThatThrownBy(() -> function.calculate(4.0, 1E-6))
+                .isInstanceOf(ArithmeticException.class)
+                .hasMessageContaining("zero denominator");
+    }
+
     private static org.assertj.core.data.Offset<Double> within(double value) {
         return org.assertj.core.data.Offset.offset(value);
     }

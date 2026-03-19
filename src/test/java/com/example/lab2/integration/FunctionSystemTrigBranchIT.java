@@ -36,7 +36,7 @@ class FunctionSystemTrigBranchIT {
         double x = -0.7;
 
         double actual = system.calculate(x, EPS);
-        double expected = (((FastMath.pow(FastMath.tan(x), 2) + FastMath.tan(x) + FastMath.cos(x))
+        double expected = ((((FastMath.pow(FastMath.tan(x), 2) * FastMath.tan(x)) + FastMath.cos(x))
                 * (1.0 / FastMath.cos(x)))
                 / ((1.0 / FastMath.sin(x)) * FastMath.tan(x) - FastMath.tan(x))) - FastMath.cos(x);
 

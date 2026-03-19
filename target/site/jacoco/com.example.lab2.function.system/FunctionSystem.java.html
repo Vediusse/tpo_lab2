@@ -53,11 +53,11 @@ public class FunctionSystem implements MathFunction {
 <span class="fc" id="L53">        double csc = cscFunction.calculate(x, eps);</span>
 
 <span class="fc" id="L55">        double denominator = csc * tan - tan;</span>
-<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (DoubleComparator.isZero(denominator, eps)) {</span>
-<span class="nc" id="L57">            throw new ArithmeticException(&quot;Function system trig branch denominator is zero&quot;);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (DoubleComparator.isZero(denominator, eps)) {</span>
+<span class="fc" id="L57">            throw new ArithmeticException(&quot;Function system trig branch denominator is zero&quot;);</span>
         }
 
-<span class="fc" id="L60">        return (((tan * tan + tan + cos) * sec) / denominator) - cos;</span>
+<span class="fc" id="L60">        return ((((tan * tan) * tan + cos) * sec) / denominator) - cos;</span>
     }
 
     private double calculateLogBranch(double x, double eps) {

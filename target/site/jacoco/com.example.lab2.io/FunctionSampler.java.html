@@ -24,11 +24,11 @@ import java.util.List;
      */
     public List&lt;SampledPoint&gt; sample(MathFunction function, double from, double to, double step, double eps) {
 <span class="fc" id="L26">        DoubleComparator.requirePositiveEps(eps);</span>
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        if (step &lt;= 0) {</span>
-<span class="nc" id="L28">            throw new IllegalArgumentException(&quot;step must be positive&quot;);</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (step &lt;= 0) {</span>
+<span class="fc" id="L28">            throw new IllegalArgumentException(&quot;step must be positive&quot;);</span>
         }
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (from &gt; to) {</span>
-<span class="nc" id="L31">            throw new IllegalArgumentException(&quot;from must be less than or equal to to&quot;);</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (from &gt; to) {</span>
+<span class="fc" id="L31">            throw new IllegalArgumentException(&quot;from must be less than or equal to to&quot;);</span>
         }
 
 <span class="fc" id="L34">        List&lt;SampledPoint&gt; result = new ArrayList&lt;&gt;();</span>

@@ -12,8 +12,8 @@ public class LogNFunction implements MathFunction {
     private final MathFunction lnFunction;
 
 <span class="fc" id="L14">    public LogNFunction(double base, MathFunction lnFunction) {</span>
-<span class="pc bpc" id="L15" title="2 of 4 branches missed.">        if (base &lt;= 0 || base == 1.0) {</span>
-<span class="nc" id="L16">            throw new IllegalArgumentException(&quot;log base must be positive and not equal to 1&quot;);</span>
+<span class="fc bfc" id="L15" title="All 4 branches covered.">        if (base &lt;= 0 || base == 1.0) {</span>
+<span class="fc" id="L16">            throw new IllegalArgumentException(&quot;log base must be positive and not equal to 1&quot;);</span>
         }
 <span class="fc" id="L18">        this.base = base;</span>
 <span class="fc" id="L19">        this.lnFunction = lnFunction;</span>
@@ -25,8 +25,8 @@ public class LogNFunction implements MathFunction {
 <span class="fc" id="L25">            throw new IllegalArgumentException(&quot;log_a(x) is defined only for x &gt; 0&quot;);</span>
         }
 <span class="fc" id="L27">        double lnBase = lnFunction.calculate(base, eps);</span>
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (DoubleComparator.isZero(lnBase, eps)) {</span>
-<span class="nc" id="L29">            throw new ArithmeticException(&quot;log base produced zero denominator&quot;);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (DoubleComparator.isZero(lnBase, eps)) {</span>
+<span class="fc" id="L29">            throw new ArithmeticException(&quot;log base produced zero denominator&quot;);</span>
         }
 <span class="fc" id="L31">        return lnFunction.calculate(x, eps) / lnBase;</span>
     }

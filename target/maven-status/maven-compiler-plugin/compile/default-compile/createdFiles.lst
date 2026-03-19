@@ -9,6 +9,7 @@ com/example/lab2/util/DoubleComparator.class
 com/example/lab2/approximation/LnSeriesCalculator.class
 com/example/lab2/model/MathFunction.class
 com/example/lab2/function/log/LnFunction.class
+com/example/lab2/Application$Arguments.class
 com/example/lab2/util/AngleNormalizer.class
 com/example/lab2/function/system/FunctionSystem.class
 com/example/lab2/function/log/LogNFunction.class

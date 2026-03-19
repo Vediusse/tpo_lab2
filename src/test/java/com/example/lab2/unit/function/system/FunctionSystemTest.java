@@ -5,6 +5,7 @@ import com.example.lab2.model.MathFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FunctionSystemTest {
 
@@ -23,7 +24,7 @@ class FunctionSystemTest {
 
         double actual = system.calculate(0.0, 1E-6);
 
-        assertThat(actual).isEqualTo(1.0);
+        assertThat(actual).isEqualTo(0.25);
     }
 
     @Test
@@ -42,5 +43,23 @@ class FunctionSystemTest {
         double actual = system.calculate(2.0, 1E-6);
 
         assertThat(actual).isEqualTo(535733.0);
+    }
+
+    @Test
+    void shouldThrowWhenTrigDenominatorIsZero() {
+        MathFunction cos = (x, eps) -> 1.0;
+        MathFunction tan = (x, eps) -> 2.0;
+        MathFunction sec = (x, eps) -> 1.0;
+        MathFunction csc = (x, eps) -> 1.0;
+        MathFunction ln = (x, eps) -> 1.0;
+        MathFunction log2 = (x, eps) -> 1.0;
+        MathFunction log3 = (x, eps) -> 1.0;
+        MathFunction log5 = (x, eps) -> 1.0;
+
+        FunctionSystem system = new FunctionSystem(cos, tan, sec, csc, ln, log2, log3, log5);
+
+        assertThatThrownBy(() -> system.calculate(-1.0, 1E-6))
+                .isInstanceOf(ArithmeticException.class)
+                .hasMessageContaining("denominator is zero");
     }
 }
